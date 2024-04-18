@@ -1,0 +1,55 @@
+@startuml
+!include ../../../../commons.puml
+
+Title Invoice Subscription
+
+participant MBE4 as Provider
+activate DV
+
+    DV -[#04BBBF]> DV: Trigger invoice
+
+DV -[#1C71AD]> Provider: GET https://billing.mbe4.de/http/transaction
+note right of DV
+    - subscriptionid
+    - subscriptiondescription
+    - subscriptioninterval
+    - username
+    - clientid
+    - password
+    - serviceid
+    - contentclass
+    - description
+    - clienttransactionid
+    - amount
+    - subscriberid
+    - do=followupdirectcapture
+    - callbackurl
+    - ordertype
+    - timestamp
+endnote
+activate Provider
+
+
+
+    group if hash is invalid
+        DV -[#04BBBF]> DV: Finalize transaction with ProviderException
+    end
+
+
+    Provider -[#1C71AD]> DV: Response
+    note left of Provider
+        - responsecode
+        - description
+        - transactionid
+        - timestamp
+    endnote
+deactivate Provider
+    group if responsecode=0
+        DV -[#04BBBF]> DV: Finalize transaction
+    else if responsecode!=0
+        DV -[#04BBBF]> DV: Finalize transaction with ProviderException
+    end
+
+
+
+@enduml

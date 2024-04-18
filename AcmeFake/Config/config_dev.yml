@@ -1,0 +1,16 @@
+imports:
+  - 'config.yml'
+
+parameters:
+  bundle.platform_id: 0
+  bundle.provider_id: 0
+  bundle.supported_end_user_providers: [58, 82, 83, 84]
+  bundle.api_url: 'http://billing.training.bundle.one.com'
+
+
+  route.forward.verbose: true
+  route.callback.verbose: true
+  route.identification.gateway_he.verbose: false
+  route.sendoptin.verbose: false
+  route.cancellation.verbose: true
+  route.notification.verbose: true

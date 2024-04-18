@@ -1,0 +1,75 @@
+@startuml
+!include /commons.puml
+title Cancel subscription
+participant "ACME" as Provider
+
+User -> Merchant: request subscription cancellation
+Merchant -[#1C71AD]> Merchant: Generate JWT with payload
+Merchant -[#1C71AD]> DV: POST /service/subscriptions/<subscriptionId>/cancel
+note right of Merchant
+   Authorization: Bearer <jwt>
+end note
+
+activate DV
+    DV -[#1C71AD]> Provider: GET {{billingUrl}}?
+    note right of DV
+      {
+      subscriptionid={subscriptionid}
+      &username={username}
+      &clientid={clientid}
+      &password={md5(password)}
+      &serviceid={serviceid}
+      &clienttransactionid={clienttransactionid}
+      &reason={reason}
+      &subscriberid={subscriberid}
+      &do=subscriptionterminate
+      &callbackurl={callbackurl}
+      &ordertype=web
+      &timestamp={timestamp}
+      }
+    end note
+
+    Provider -[#1C71AD]> DV: Response
+       note left of Provider
+           {
+                 responsecode={responsecode}
+                 &description={description}
+                 &transactionid={ transactionid }
+                 &timestamp={timestamp}
+           }
+       end note
+     group if responseCode = "0"
+            DV -[#04BBBF]> DV: Finalize transaction
+        end
+    group if status = SUCCESS
+        DV -[#04BBBF]> Merchant: Response 200 OK
+        note left of DV
+        	{
+        		"status": SUCCESS,
+        		"operationId": "uuid",
+        		...
+        	}
+        end note
+    User -> Merchant: consume content
+    else some other status
+        Merchant -> Merchant: display error page
+        note left of DV
+        	{
+        		"status": "ERROR",
+        		"operationId": "uuid",
+        		...
+        	}
+        endnote
+    end
+
+
+DV -[#1C71AD]> Merchant: Notify
+deactivate DV
+
+legend
+    Type: CANCELLATION
+
+end legend
+
+
+@enduml

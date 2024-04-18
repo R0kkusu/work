@@ -1,0 +1,38 @@
+@startuml
+skinparam Default {
+    FontName Consolas
+    FontSize 12
+    BackgroundColor #FFFFFF
+}
+skinparam Shadowing false
+skinparam Padding 2
+skinparam Sequence {
+    ActorBorderColor #222A35
+    ActorBackgroundColor #FFFFFF
+    ArrowColor #black
+    BackgroundColor #FFFFFF
+    DividerBorderThickness 1
+    LifeLineBackgroundColor #DDE9F1
+    LifeLineBorderColor #222A35
+    ParticipantBackgroundColor #FFFFFF
+    ParticipantBorderColor #222A35
+    ParticipantBorderThickness 1
+}
+skinparam Note {
+    BackgroundColor #FAF0F5
+    BorderColor #222A35
+}
+
+actor User
+participant Service as Merchant
+participant "DVP4M" as DV #DDE9F1
+
+legend right
+ <font size=10 color=000000>User action</font>
+ <font size=10 color=E20074>HTTP Redirection</font>
+ <font size=10 color=1C71AD>S2S exchange</font>
+ <font size=10 color=FF8E8B>SMS exchange</font>
+ <font size=10 color=04BBBF>Internal</font>
+endlegend
+center footer <font color=1C71AD>DV Pass 4 Merchants</font>
+@enduml

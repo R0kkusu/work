@@ -1,0 +1,90 @@
+@startuml
+!include /commons.puml
+title Forward
+participant "ACME" as Provider
+
+User -> Merchant: request to purchase
+
+Merchant-> Merchant: Generate GWT with payload
+Merchant -> DV: GET <purchaseUrl>
+note right of Merchant
+   -pack
+   -payload.callbackurl
+end note
+
+DV -> Provider: HTTP GET {{consentUrl}}?username={username}&clientid={clientid}"..."
+note right of DV
+    - username: string
+    - clientid: string
+    - serviceid: string
+    - contentclass: string
+    - description: string
+    - clienttransactionid: string
+    - amount: string
+    - callbackurl: string
+    - subscriptionid: string
+    - subscriptiondescription: string
+    - subscriptioninterval: string
+    - timestamp: string
+    - hash: string
+end note
+
+
+activate DV
+    Provider -> DV: GET https://<callbackUrl>\n<i>HTTP 302</i>
+
+note right of DV
+        transactionid={transactionid}
+        &clienttransactionid={clienttransactionid}
+        &responsecode={responsecode}
+        &description={description}
+        &subscriberid={subscriberid}
+        &operatorid={operatorid}
+        &timestamp={timestamp}
+        &subscriptionid={subscriptionid}
+        &hash={md5hashcode}
+end note
+group if responsecode = 0
+DV -> DV: ackOK transaction
+end group
+DV -> Merchant: {{callbackUrl}} Http 302
+
+note left of DV
+        status = SUCCESS|ERROR|PENDING
+        code
+        message
+        date
+        correlationId
+        operationId
+        signature
+end note
+group if status = pending
+   Merchant-> Merchant: display waiting page
+   Merchant -[#ff0000]> DV: Get /service/operations/{operatorId}
+   note right of Merchant
+     Waiting for final status
+     end note
+
+    else if status = SUCCESS
+                    DV -[#04BBff]> Merchant: GET {{notificationUrl}} HTTP 302
+                    note left of DV
+                    	{
+                    		Event type=SUBSCRIBTION
+                    		transactionid
+                    		clienttransactionid
+                    		status=0
+                    		timestamp
+                    		hash
+                    	}
+                    end note
+                Merchant -> Merchant: Display success page
+                User -> Merchant: consume content
+
+    else if status = ERROR
+        Merchant -> Merchant: Display error page
+    end
+
+deactivate DV
+
+
+@enduml

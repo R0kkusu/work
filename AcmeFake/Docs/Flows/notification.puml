@@ -1,0 +1,41 @@
+@startuml
+!include /commons.puml
+
+participant ACME as Provider
+
+note right Provider
+Notifications
+end note
+Provider -[#1C71AD]> DV: Offline subscription Notification
+note right DV
+    -subscriptionid
+    -subscriberid
+    -skuid
+    -timestamp
+end note
+DV --> Provider: HTTP 200
+DV -[#1C71AD]> Merchant: Notify
+
+Provider -[#1C71AD]> DV: Transaction create  notification
+note right DV
+    -transactionId
+    -clienttransactionId
+    -status:1|0
+    -timestamp
+    -hash
+end note
+DV --> Provider: HTTP 200
+DV -[#1C71AD]> Merchant: Notify
+
+Provider -[#1C71AD]> DV: Subscription Cancellation notification
+note right DV
+    -transactionId
+    -clienttransactionId
+    -status:1|0
+    -timestamp
+    -hash
+end note
+DV --> Provider: HTTP 200
+DV -[#1C71AD]> Merchant: Notify
+
+@enduml

@@ -1,0 +1,384 @@
+{
+  "uuid": "1323b441-897c-4c6a-8095-535095ab86ae",
+  "lastMigration": 28,
+  "name": "MBE",
+  "endpointPrefix": "mbe/mbe4",
+  "latency": 0,
+  "port": 3060,
+  "hostname": "",
+  "routes": [
+    {
+      "uuid": "e6bbcb8f-4497-406a-b269-001911bba9fc",
+      "documentation": "Capture ",
+      "method": "post",
+      "endpoint": "http/transaction",
+      "responses": [
+        {
+          "uuid": "415106ec-487e-4021-b75d-da1f805e870a",
+          "body": "responsecode=3&status=12&description=some_invalid_Description&transactionid=1234&timestamp=2022-10-31T12:12:16.123Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Capture error",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "capture",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "UserName_999",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "ef97da7b-7f75-462d-ae85-ba91ba7d1d65",
+          "body": "responsecode=0&status=12&description=some_Description&transactionid={{queryParam 'transactionid'}}&timestamp={{now \"YYYY-MM-dd'T'HH:mm:ss.SSS'Z'\"}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Capture testbook",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "capture",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitalvirgo",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "2968393c-18df-4568-8431-4650b09bef1e",
+          "body": "responsecode=0&status=17&description=some_Description&transactionid=4321&operatorid=262-02&subscriberid=I_2_262002STATRSV2018-01-01T01%3A00%3A00ZiMwEj%2BnGPnnwaeULONsDFE0flA%2FIIMuK2Vl1L6AIawnf2H11oZR%2FMKRlbNM6AgjNOL424DwTuFj3%2FZLwAWxqcjUoIBcCroB2DyZSylxNx0gOB%2BgLhiidY4lb0tDg333%2BjOYZY3ljUZY1hQRx6yk0LzpIHOKHRZm88dT5FomrDhckyaRWubIIQ6FXPB%2F2bj3sub8bGqLHmz9ZGtHYfjSTo%2FEN66%2F6qJYu4aF%2BrF%2F7S%2F4DQSdjl68ktfH6dqz0B9cA4%2FKxcntWrWdIbNUqde8sBvf6s%2ByAMjXQWjCjbG%2BqD8lRgXSrRFScdoyGtrIsOxKPBj09Xx%2FmPZZ1cPPFaoonEg%3D%3D$timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Forward -> Notification (TransactionStatus != 9) -> Forward ",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "5",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "status",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "afc6d96e-247a-446d-bce9-448ec3857406",
+          "body": "responsecode=0&status=17&description=some_Description&transactionid=4321&operatorid=262-02&subscriberid=I_2_262002STATRSV2018-01-01T01%3A00%3A00ZiMwEj%2BnGPnnwaeULONsDFE0flA%2FIIMuK2Vl1L6AIawnf2H11oZR%2FMKRlbNM6AgjNOL424DwTuFj3%2FZLwAWxqcjUoIBcCroB2DyZSylxNx0gOB%2BgLhiidY4lb0tDg333%2BjOYZY3ljUZY1hQRx6yk0LzpIHOKHRZm88dT5FomrDhckyaRWubIIQ6FXPB%2F2bj3sub8bGqLHmz9ZGtHYfjSTo%2FEN66%2F6qJYu4aF%2BrF%2F7S%2F4DQSdjl68ktfH6dqz0B9cA4%2FKxcntWrWdIbNUqde8sBvf6s%2ByAMjXQWjCjbG%2BqD8lRgXSrRFScdoyGtrIsOxKPBj09Xx%2FmPZZ1cPPFaoonEg%3D%3D$timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Forward -> Notification (TransactionStatus != 9) -> Forward  (copy)",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "2",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "status",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "65ee140a-fc95-4538-893b-9ae9bde1778b",
+          "body": "responsecode=0&status=9&description=some_Description&transactionid=4321&operatorid=262-02&subscriberid=I_2_262002STATRSV2018-01-01T01%3A00%3A00ZiMwEj%2BnGPnnwaeULONsDFE0flA%2FIIMuK2Vl1L6AIawnf2H11oZR%2FMKRlbNM6AgjNOL424DwTuFj3%2FZLwAWxqcjUoIBcCroB2DyZSylxNx0gOB%2BgLhiidY4lb0tDg333%2BjOYZY3ljUZY1hQRx6yk0LzpIHOKHRZm88dT5FomrDhckyaRWubIIQ6FXPB%2F2bj3sub8bGqLHmz9ZGtHYfjSTo%2FEN66%2F6qJYu4aF%2BrF%2F7S%2F4DQSdjl68ktfH6dqz0B9cA4%2FKxcntWrWdIbNUqde8sBvf6s%2ByAMjXQWjCjbG%2BqD8lRgXSrRFScdoyGtrIsOxKPBj09Xx%2FmPZZ1cPPFaoonEg%3D%3D$timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Forward -> Notification (TransactionStatus != 9) -> Forward  (copy) (copy)",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "status",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "5ccb286a-261c-4d08-98de-e06eb22520b9",
+          "body": "responsecode=0&subscriptionstatus=0&description=some_Description&operatorid=262-02&subscriberid=I_2_262002STATRSV2018-01-01T01%3A00%3A00ZiMwEj%2BnGPnnwaeULONsDFE0flA%2FIIMuK2Vl1L6AIawnf2H11oZR%2FMKRlbNM6AgjNOL424DwTuFj3%2FZLwAWxqcjUoIBcCroB2DyZSylxNx0gOB%2BgLhiidY4lb0tDg333%2BjOYZY3ljUZY1hQRx6yk0LzpIHOKHRZm88dT5FomrDhckyaRWubIIQ6FXPB%2F2bj3sub8bGqLHmz9ZGtHYfjSTo%2FEN66%2F6qJYu4aF%2BrF%2F7S%2F4DQSdjl68ktfH6dqz0B9cA4%2FKxcntWrWdIbNUqde8sBvf6s%2ByAMjXQWjCjbG%2BqD8lRgXSrRFScdoyGtrIsOxKPBj09Xx%2FmPZZ1cPPFaoonEg%3D%3D&timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "subscriptionstatus",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "subscriptionstatus",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "1fe051a2-78d9-492f-a3ed-99840616e569",
+          "body": "responsecode=0&description=some_Description&transactionid=4321&timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "followupdirectcapture",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "followupdirectcapture",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "cba2b0b1-f1bd-48c8-8484-e382cd3741b4",
+          "body": "responsecode=0&description=some_Description&transactionid=4321&timestamp=2022-10-31T11:20:06.523Z",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "subscriptionterminate",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "digitvalvirgo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "retry",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "do",
+              "value": "subscriptionterminate",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "e6bbcb8f-4497-406a-b269-001911bba9fc"
+    }
+  ]
+}

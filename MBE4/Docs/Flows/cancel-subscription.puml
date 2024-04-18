@@ -1,0 +1,62 @@
+@startuml
+!include ../../../../commons.puml
+
+Title Cancel Subscription
+
+participant MBE4 as Provider
+
+User -> Merchant: Cancel subscription
+Merchant -[#04BBBF]> Merchant: Generate JWT with payload
+Merchant -[#1C71AD]> DV: POST /service/subscriptions/:id/cancel
+activate DV
+
+DV -[#1C71AD]> Provider: GET https://billing.mbe4.de/http/transaction
+note right of DV
+    - subscriptionid
+    - username
+    - clientid
+    - password
+    - serviceid
+    - clienttransactionid
+    - reason
+    - subscriberid
+    - do=subscriptionterminate
+    - callbackurl
+    - ordertype
+    - timestamp
+endnote
+activate Provider
+
+    Provider -[#1C71AD]> DV: Response
+
+deactivate Provider
+
+    note left of Provider
+        - responsecode
+        - description
+        - transactionid
+        - timestamp
+    endnote
+
+    group if responsecode=0
+        DV -[#04BBBF]> DV: Finalize transaction
+    else if responsecode!=0
+        DV -[#04BBBF]> DV: Finalize transaction with ProviderException
+    end
+
+
+group if status=SUCCESS
+
+    DV -[#1C71AD]> Merchant: Response
+    note left of DV
+        {
+            "status": "SUCCESS|ERROR",
+            "operationId": "uuid",
+            ...
+        }
+    endnote
+    User -> Merchant: Consumes content
+else if status=ERROR
+    Merchant -[#E20074]> Merchant: Display error page
+end
+@enduml

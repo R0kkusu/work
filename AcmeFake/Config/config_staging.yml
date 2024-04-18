@@ -1,0 +1,8 @@
+imports:
+  - 'config.yml'
+
+parameters:
+  bundle.mtn.madapi.platform_id: 0
+  bundle.mtn.madapi.provider_id: 0
+  bundle.mtn.madapi.supported_end_user_providers: [58, 82, 83, 84]
+  bundle.mtn.madapi.api_url: 'http://billing.training.bundle.one.com'

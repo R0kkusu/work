@@ -1,0 +1,16 @@
+imports:
+  - 'config.yml'
+
+parameters:
+  bundle.mbe.mbe4.platform_id: 1108
+  bundle.mbe.mbe4.provider_id: 2276
+  bundle.mbe.mbe4.supported_end_user_providers: [2272, 2273, 2274, 2275]
+  bundle.mbe.mbe4.api_url: 'http://dvp4m-mock.dve-dev.com:3060/mbe/mbe4'
+  bundle.mbe.mbe4.billing_api_url : 'http://dvp4m-mock.dve-dev.com:3060/mbe/mbe4'
+  bundle.mbe.mbe4.expiration_policy: !php/const Platform\Core\Repository\References\ExpirationPolicy::IMMEDIATE
+
+  route.mbe.mbe4.forward.verbose: true
+  route.mbe.mbe4.callback.verbose: true
+  route.mbe.mbe4.notification.verbose: true
+  route.mbe.mbe4.cancellation.verbose: true
+  route.mbe.mbe4.invoice_subscription.verbose: true

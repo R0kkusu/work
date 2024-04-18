@@ -1,0 +1,70 @@
+parameters:
+  bundle.platform_id: 0
+  bundle.platform_tag: 'Acme'
+  bundle.platform_nicename: 'Acme'
+  bundle.provider_id: 0
+  bundle.provider_tag: 'mtn'
+  bundle.provider_nicename: 'ProvierPf'
+  bundle.supported_countries: ['GE']
+  bundle.supported_end_user_providers: [58, 82, 83, 84]
+  bundle.timezone_reference: 'Europe/Berlin'
+  bundle.group: '/'
+  bundle.wrapper: '\Bundle\Wrapper'
+  bundle.api_url: 'http://billing.training.bundle.one.com'
+  bundle.consent_page_url: ' http://consent.training.bundle.one.com'
+
+services:
+  sdk:
+    class: Bundle\SDK\API
+    arguments:
+      $apiUrl: '%bundle.api_url%'
+      $consentPageBaseUrl: '%bundle.consent_page_url%'
+
+  wrapper:
+    public: true
+    class: 'Platform\Bundle\Wrapper'
+    arguments:
+      $platformId: '%bundle.platform_id%'
+      $platformTag: '%bundle.platform_tag%'
+      $platformNiceName: '%bundle.platform_nicename%'
+      $billingProviderId: '%bundle.provider_id%'
+      $billingProviderTag: '%bundle.provider_tag%'
+      $billingProviderNiceName: '%bundle.provider_nicename%'
+      $supportedCountries: '%bundle.supported_countries%'
+      $supportedEndUserProvidersIds: '%bundle.supported_end_user_providers%'
+      $timezoneReference: '%bundle.timezone_reference%'
+      $expirationPolicy: '%bundle.expiration_policy%'
+      $subscriptionInvoiceStrategy: '%bundle.invoice_strategy%'
+    calls:
+      - method: setSdk
+        arguments:
+          - 'sdk'
+
+  route.forward:
+    public: true
+    class: Platform\Bundle\Routes\Acquisition\Forward
+    tags:
+      - { name: route.acquisition }
+      - { name: route.scope, countries: 'GE' }
+
+  route.callback:
+    public: true
+    class: Platform\BundleRoutes\Acquisition\Callback
+    tags:
+      - { name: route.acquisition_related }
+      - { name: route.scope, countries: 'GE', method: 'get' }
+
+  route.cancellation:
+    public: true
+    class: Platform\Bundle\Routes\Service\SubscriptionCancellation
+    tags:
+      - { name: route.acquisition }
+      - { name: route.scope, countries: 'GE' }
+
+  route.notification:
+    public: true
+    class: Platform\Bundle\Routes\Acquisition\Notification
+    tags:
+      - { name: route.acquisition_related }
+      - { name: route.scope, countries: 'GE', method: 'post' }
+

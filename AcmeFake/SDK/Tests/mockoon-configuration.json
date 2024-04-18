@@ -1,0 +1,461 @@
+{
+  "uuid": "25a25423-fa74-4d4c-a32f-0ff5ae6fe362",
+  "lastMigration": 28,
+  "name": "MTN Madapi",
+  "endpointPrefix": "mtn/madapi",
+  "latency": 0,
+  "port": 3058,
+  "hostname": "",
+  "routes": [
+    {
+      "uuid": "0075014d-55fe-4bc5-91e4-1ac0b2724e6a",
+      "documentation": "api subscribe",
+      "method": "post",
+      "endpoint": ":country/v2/customers/:msisdn/subscriptions",
+      "responses": [
+        {
+          "uuid": "ce13fac9-c5fb-4535-80f8-f65d0fa68649",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"registrationChannel\": \"2\",\r\n    \"sendSMSNotification\": false,\r\n    \"beneficiaryId\": \"2330123456789\",\r\n    \"autoRenew\": false,\r\n    \"nodeId\": \"105\",\r\n    \"amountBefore\": 0.0,\r\n    \"amountAfter\": 0.0,\r\n    \"links\": [],\r\n    \"statusCode\": \"0000\",\r\n    \"statusMessage\": \"Subscription in progress\",\r\n    \"isCVMoffer\": false\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "success subscribe",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "country",
+              "value": "ci",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "nodeId",
+              "value": "success",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": "msisdn",
+              "value": "[0-9]",
+              "operator": "regex",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "e2997ac2-0038-4ea6-895d-9d73507b7257",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"registrationChannel\": \"2\",\r\n    \"sendSMSNotification\": false,\r\n    \"beneficiaryId\": \"2330123456789\",\r\n    \"autoRenew\": false,\r\n    \"nodeId\": \"105\",\r\n    \"amountBefore\": 0.0,\r\n    \"amountAfter\": 0.0,\r\n    \"links\": [],\r\n    \"statusCode\": \"0000\",\r\n    \"statusMessage\": \"Invoice in progress\",\r\n    \"isCVMoffer\": false\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success invoice CI",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "country",
+              "value": "ci",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "nodeId",
+              "value": "105",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": "msisdn",
+              "value": "225\\d{10}",
+              "operator": "regex",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "f5d761ec-5b67-4c6e-839c-65001e2a0c86",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"registrationChannel\": \"2\",\r\n    \"sendSMSNotification\": false,\r\n    \"beneficiaryId\": \"2330123456789\",\r\n    \"autoRenew\": false,\r\n    \"nodeId\": \"105\",\r\n    \"amountBefore\": 0.0,\r\n    \"amountAfter\": 0.0,\r\n    \"links\": [],\r\n    \"statusCode\": \"0001\",\r\n    \"statusMessage\": \"Invoice failed\",\r\n    \"isCVMoffer\": false\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Failed invoice CI",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "country",
+              "value": "ci",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "nodeId",
+              "value": "105",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": "msisdn",
+              "value": "225\\d{10}",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "7a37565c-cc6d-456e-8f65-3f1657e6d5e8",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"registrationChannel\": \"2\",\r\n    \"sendSMSNotification\": false,\r\n    \"beneficiaryId\": \"2330123456789\",\r\n    \"autoRenew\": false,\r\n    \"nodeId\": \"105\",\r\n    \"amountBefore\": 0.0,\r\n    \"amountAfter\": 0.0,\r\n    \"links\": [],\r\n    \"statusCode\": \"1234\",\r\n    \"statusMessage\": \"Subscription error\",\r\n    \"isCVMoffer\": false\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "error",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "nodeId",
+              "value": "error",
+              "operator": "equals",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "c9d00f44-a66e-4553-afa0-41527c2998e6",
+      "documentation": "api unsubscribe",
+      "method": "delete",
+      "endpoint": ":country/v2/customers/:msisdn/subscriptions/:subscriptionId",
+      "responses": [
+        {
+          "uuid": "4d3e6817-1ddd-4ac7-bbd2-89fcf3f5f390",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"status\": \"1\",\r\n    \"description\": \"Deactivate Subscription Successful\",\r\n    \"links\": [],\r\n    \"statusCode\": \"0000\",\r\n    \"statusMessage\": \"Deactivate Subscription Successful\",\r\n    \"transactionId\": \"df33d5ff-1d0d-51de-abec-6648836f1d4a\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "success GH",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": ":country",
+              "value": "gh",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "nodeId",
+              "value": "success",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": ":msisdn",
+              "value": "[0-9]",
+              "operator": "regex",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": "subscriptionId",
+              "value": "[0-9]",
+              "operator": "regex",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "5bdbc00d-46cf-4f42-a27b-d15e9f97f2b9",
+          "body": "{\r\n    \"subscriptionId\": \"9910510022\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"status\": \"1\",\r\n    \"description\": \"Deactivate Subscription Successful\",\r\n    \"links\": [],\r\n    \"statusCode\": \"0000\",\r\n    \"statusMessage\": \"Deactivate Subscription Successful\",\r\n    \"transactionId\": \"df33d5ff-1d0d-51de-abec-6648836f1d4a\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "success NG",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": ":country",
+              "value": "ng",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "nodeId",
+              "value": "success",
+              "operator": "equals",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": ":msisdn",
+              "value": "[0-9]",
+              "operator": "regex",
+              "invert": false
+            },
+            {
+              "target": "params",
+              "modifier": "subscriptionId",
+              "value": "[0-9]",
+              "operator": "regex",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        },
+        {
+          "uuid": "03c4aef1-7397-4d1b-a93d-cce815afbe46",
+          "body": "{\r\n    \"subscriptionId\": \"9910510023\",\r\n    \"subscriptionProviderId\": \"SM6D\",\r\n    \"status\": \"17\",\r\n    \"description\": \"Subscription already deactivated\",\r\n    \"links\": [],\r\n    \"statusCode\": \"1003\",\r\n    \"statusMessage\": \"Subscription already deactivated\",\r\n    \"supportMessage\": \"An error occurred\",\r\n    \"transactionId\": \"200961c9-0c0a-568c-94af-1f0e1c02ef12\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "error",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "nodeId",
+              "value": "error",
+              "operator": "equals",
+              "invert": false
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "databucketID": "",
+          "bodyType": "INLINE",
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "802b047a-3711-4d18-be82-56b4baee1a83",
+      "type": "http",
+      "documentation": "Get access token",
+      "method": "post",
+      "endpoint": ":country/v1/oauth/access_token",
+      "responses": [
+        {
+          "uuid": "8f1c8218-1833-48ff-8508-d8b63fb12d5e",
+          "body": "{\n  \"token_type\": \"Bearer\",\n  \"access_token\": \"{{ objectId }}\",\n  \"expires_in\": 3600\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successful authentication",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_secret",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "grant_type",
+              "value": "client_credentials",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "Contnet-Type",
+              "value": "application/x-www-form-urlencoded",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "9c338f12-b4eb-4ca9-ba00-a693081391f3",
+          "body": "{\n  \"error\": \"invalid_client\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Unauthorized",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_secret",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "grant_type",
+              "value": "client_credentials",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "header",
+              "modifier": "Content-Type",
+              "value": "application/x-www-form-urlencoded",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "0075014d-55fe-4bc5-91e4-1ac0b2724e6a"
+    },
+    {
+      "type": "route",
+      "uuid": "c9d00f44-a66e-4553-afa0-41527c2998e6"
+    },
+    {
+      "type": "route",
+      "uuid": "802b047a-3711-4d18-be82-56b4baee1a83"
+    }
+  ]
+}

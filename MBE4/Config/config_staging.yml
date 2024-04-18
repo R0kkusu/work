@@ -1,0 +1,7 @@
+imports:
+  - 'config.yml'
+
+parameters:
+  bundle.mbe.mbe4.platform_id: 155
+  bundle.mbe.mbe4.provider_id: 560
+  bundle.mbe.mbe4.supported_end_user_providers: [561,562,563,568]

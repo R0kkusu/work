@@ -1,0 +1,82 @@
+parameters:
+  bundle.mbe.mbe4.enabled: true
+  bundle.mbe.mbe4.platform_id: 70
+  bundle.mbe.mbe4.platform_tag: 'mbe4'
+  bundle.mbe.mbe4.platform_nicename: 'MBE4'
+  bundle.mbe.mbe4.provider_id: 497
+  bundle.mbe.mbe4.provider_tag: 'mbe'
+  bundle.mbe.mbe4.provider_nicename: 'MBE'
+  bundle.mbe.mbe4.supported_countries: ['DE']
+  bundle.mbe.mbe4.supported_end_user_providers: [498,499,500,501]
+  bundle.mbe.mbe4.timezone_reference: 'UTC'
+  bundle.mbe.mbe4.api_url: 'https://apps.mbe4.de/sources/widget4x/4.3/'
+  bundle.mbe.mbe4.billing_api_url: 'https://billing.mbe4.de'
+  bundle.mbe.mbe4.expiration_policy: !php/const Platform\Core\Repository\References\ExpirationPolicy::CURRENT_PAID_CYCLE
+  bundle.mbe.mbe4.group: 'MBE/MBE4'
+  bundle.mbe.mbe4.wrapper: 'Platform\Bundle\MBE\MBE4\Wrapper'
+
+services:
+  job.mbe.mbe4.oneshot.reminder:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Jobs\OneShotReminder
+
+  mbe.mbe4.sdk:
+    class: Platform\Bundle\MBE\MBE4\SDK\API
+    arguments:
+      $baseUrl: '%bundle.mbe.mbe4.api_url%'
+      $billingUrl: '%bundle.mbe.mbe4.billing_api_url%'
+
+  mbe.mbe4.wrapper:
+    public: true
+    class: 'Platform\Bundle\MBE\MBE4\Wrapper'
+    arguments:
+      $platformId: '%bundle.mbe.mbe4.platform_id%'
+      $platformTag: '%bundle.mbe.mbe4.platform_tag%'
+      $platformNiceName: '%bundle.mbe.mbe4.platform_nicename%'
+      $billingProviderId: '%bundle.mbe.mbe4.provider_id%'
+      $billingProviderTag: '%bundle.mbe.mbe4.provider_tag%'
+      $billingProviderNiceName: '%bundle.mbe.mbe4.provider_nicename%'
+      $supportedCountries: '%bundle.mbe.mbe4.supported_countries%'
+      $supportedEndUserProvidersIds: '%bundle.mbe.mbe4.supported_end_user_providers%'
+      $timezoneReference: '%bundle.mbe.mbe4.timezone_reference%'
+      $expirationPolicy: '%bundle.mbe.mbe4.expiration_policy%'
+      $subscriptionInvoiceStrategy: !php/const Platform\Core\Contract\BillingBundleInterface::INVOICE_MANUAL
+    calls:
+      - method: setSdk
+        arguments:
+          - '@mbe.mbe4.sdk'
+
+  route.mbe.mbe4.forward:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Routes\Acquisition\Forward
+    tags:
+      - { name: route.acquisition }
+      - { name: route.scope, countries: 'DE' }
+
+  route.mbe.mbe4.callback:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Routes\Acquisition\Callback
+    tags:
+      - { name: route.acquisition_related }
+      - { name: route.scope, countries: 'DE', method: 'get' }
+
+  route.mbe.mbe4.notification:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Routes\Acquisition\Notification
+    tags:
+      - { name: route.acquisition_related }
+      - { name: route.scope, countries: 'DE', method: 'get' }
+
+  route.mbe.mbe4.cancellation:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Routes\Service\SubscriptionCancellation
+    tags:
+      - { name: route.acquisition }
+      - { name: route.scope, countries: 'DE' }
+
+  route.mbe.mbe4.invoice_subscription:
+    public: true
+    class: Platform\Bundle\MBE\MBE4\Routes\Internal\InvoiceSubscription
+    tags:
+      - { name: route.internal }
+      - { name: route.scope, countries: 'DE' }
